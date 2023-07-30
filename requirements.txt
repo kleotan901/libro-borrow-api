@@ -29,3 +29,5 @@ six==1.16.0
 virtualenv==20.23.0
 virtualenv-clone==0.5.7
 
+
+djangorestframework~=3.14.0
