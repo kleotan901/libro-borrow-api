@@ -9,8 +9,12 @@ class Borrowing(models.Model):
     borrow_date = models.DateField()
     expected_return_date = models.DateField()
     actual_return_date = models.DateField(blank=True, null=True)
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    book_id = models.ManyToManyField(Book)
+    user_id = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name="borrowings", on_delete=models.CASCADE
+    )
+    book_id = models.ForeignKey(
+        Book, related_name="borrowings", on_delete=models.CASCADE
+    )
 
     def __str__(self) -> str:
         return f"{self.book_id} - {self.borrow_date}"
