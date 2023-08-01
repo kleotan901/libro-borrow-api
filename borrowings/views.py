@@ -1,5 +1,3 @@
-from sys import stdout
-
 from rest_framework import mixins, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -32,7 +30,23 @@ class BorrowingViewSet(
         return BorrowingSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(user_id=self.request.user)
+        """Filtered borrowings by user_id and is_active"""
+        queryset = self.queryset
+        is_user = self.request.query_params.get("is_user")
+        is_active = self.request.query_params.get("is_active")
+
+        if is_user:
+            queryset = Borrowing.objects.filter(user_id=is_user)
+
+        if is_active:
+            if is_active.lower() == "true":
+                queryset = queryset.filter(actual_return_date__isnull=True)
+            elif is_active.lower() == "false":
+                queryset = queryset.filter(actual_return_date__isnull=False)
+
+        if not self.request.user.is_staff:
+            queryset = queryset.filter(user_id=self.request.user)
+        return queryset
 
     def perform_create(self, serializer):
         serializer.save(user_id=self.request.user)
