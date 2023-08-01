@@ -1,5 +1,7 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
+from books.models import Book
 from books.serializers import BookSerializer
 from borrowings.models import Borrowing
 from users.serializers import UserSerializer, UserDetailSerializer
@@ -16,12 +18,16 @@ class BorrowingSerializer(serializers.ModelSerializer):
             "book_id",
         ]
 
+    def validate(self, attrs):
+        book = Book.objects.get(id=attrs["book_id"].id)
+        if book.inventory == 0:
+            raise ValidationError("The books are over")
+        return attrs
+
 
 class BorrowingListSerializer(BorrowingSerializer):
     user_id = UserDetailSerializer()
-    book_id = serializers.SlugRelatedField(
-        slug_field="title", many=True, read_only=True
-    )
+    book_id = serializers.SlugRelatedField(slug_field="title", read_only=True)
 
     class Meta:
         model = Borrowing
@@ -37,7 +43,7 @@ class BorrowingListSerializer(BorrowingSerializer):
 
 class BorrowingDetailSerializer(BorrowingSerializer):
     user_id = UserSerializer(read_only=True)
-    book_id = BookSerializer(many=True, read_only=True)
+    book_id = BookSerializer(read_only=True)
 
     class Meta:
         model = Borrowing
