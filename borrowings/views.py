@@ -1,5 +1,3 @@
-from sys import stdout
-
 from rest_framework import mixins, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -32,7 +30,9 @@ class BorrowingViewSet(
         return BorrowingSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(user_id=self.request.user)
+        if not self.request.user.is_staff:
+            return self.queryset.filter(user_id=self.request.user)
+        return self.queryset
 
     def perform_create(self, serializer):
         serializer.save(user_id=self.request.user)
