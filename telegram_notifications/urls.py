@@ -8,7 +8,6 @@ app_name = "telegram-notifications"
 router = routers.DefaultRouter()
 router.register("", NotificationViewSet)
 
-
 urlpatterns = [
     path("", include(router.urls)),
 ]
