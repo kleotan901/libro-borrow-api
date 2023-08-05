@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 from telegram_notifications.models import Notification
 from telegram_notifications.serializers import NotificationSerializer
-from telegram_notifications.tasks import webhook_task
+from telegram_notifications.tasks import set_webhook
 
 
 class NotificationViewSet(viewsets.ModelViewSet):
@@ -23,3 +23,9 @@ class NotificationViewSet(viewsets.ModelViewSet):
         url = f"{telegram_url}/{bot_name}?start={connect_token}"
 
         return Response({"telegram bot start": url})
+
+    @action(methods=["post"], url_path="webhook", detail=False)
+    def webhook(self, request):
+        user_id = request.user.id
+        set_webhook.delay(user_id)
+        return Response({"message": "Run successfully."})
