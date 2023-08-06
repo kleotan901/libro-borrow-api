@@ -1,4 +1,7 @@
+import datetime
+
 from rest_framework import mixins, status
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -61,3 +64,23 @@ class BorrowingViewSet(
         book.inventory -= 1
         book.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    @action(methods=["post"], detail=True, url_path="return")
+    def return_book(self, request, pk):
+        borrowing = Borrowing.objects.get(id=pk)
+        if borrowing.actual_return_date:
+            return Response(
+                {"message": "This book has already been returned"},
+                status=status.HTTP_200_OK,
+            )
+        if borrowing.user_id.id == request.user.id:
+            book = Book.objects.get(id=borrowing.book_id.id)
+            book.inventory += 1
+            book.save()
+            borrowing.actual_return_date = datetime.datetime.now()
+            borrowing.save()
+            return Response({"message": "Book is returned"}, status=status.HTTP_200_OK)
+        return Response(
+            {"message": "User has no rights to return this book"},
+            status=status.HTTP_403_FORBIDDEN,
+        )
