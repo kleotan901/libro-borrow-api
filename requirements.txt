@@ -32,3 +32,4 @@ virtualenv-clone==0.5.7
 
 
 djangorestframework~=3.14.0
+telegram~=0.0.1

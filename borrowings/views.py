@@ -13,6 +13,8 @@ from borrowings.serializers import (
     BorrowingDetailSerializer,
     BorrowingListSerializer,
 )
+from borrowings.tasks import send_message_new_borrowing
+from telegram_notifications.models import Notification
 
 
 class BorrowingViewSet(
@@ -59,10 +61,16 @@ class BorrowingViewSet(
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         serializer.save()
-        borrowed_book = serializer.data["book_id"]
+
+        borrowed_book = serializer.data.get("book_id")
         book = Book.objects.get(id=borrowed_book)
         book.inventory -= 1
         book.save()
+
+        message_text = f"Borrowing created - {book.title}({book.author})"
+        chat_id = Notification.objects.get(user=request.user.id).chat_id
+        send_message_new_borrowing.delay(chat_id, message_text)
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @action(methods=["post"], detail=True, url_path="return")
