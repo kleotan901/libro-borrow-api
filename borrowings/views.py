@@ -1,5 +1,6 @@
 import datetime
 
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import mixins, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -35,7 +36,7 @@ class BorrowingViewSet(
         return BorrowingSerializer
 
     def get_queryset(self):
-        """Filtered borrowings by user_id and is_active"""
+        """Retrieve borrowings filtered by user_id and is_active"""
         queryset = self.queryset
         is_user = self.request.query_params.get("is_user")
         is_active = self.request.query_params.get("is_active")
@@ -93,3 +94,22 @@ class BorrowingViewSet(
             {"message": "User has no rights to return this book"},
             status=status.HTTP_403_FORBIDDEN,
         )
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="is_user",
+                description="Filter borrowings by user id (ex. ?is_user=1)",
+                required=False,
+                type=str,
+            ),
+            OpenApiParameter(
+                name="is_active",
+                description="Filter borrowings by is_active (ex. ?is_active=true or ?is_active=false)",
+                required=False,
+                type=str,
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(self, request, *args, **kwargs)
