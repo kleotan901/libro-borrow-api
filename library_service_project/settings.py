@@ -158,8 +158,10 @@ CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
 
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
+HOME_PAGE = "http://127.0.0.1:8000/api/books/"
 
 TELEGRAM_URL = "https://www.telegram.me/"
 TELEGRAM_API_URL = "https://api.telegram.org/"
-BOT_NAME = os.getenv("BOT_NAME")
+BOT_NAME = "LibraryServiceNotifications_bot"
 BOT_TOKEN = os.getenv("BOT_TOKEN")
+WEBHOOK_URL = os.getenv("WEBHOOK_URL")
