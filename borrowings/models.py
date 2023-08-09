@@ -1,3 +1,5 @@
+import datetime
+
 from django.conf import settings
 from django.db import models
 from rest_framework.exceptions import ValidationError
@@ -45,3 +47,8 @@ class Borrowing(models.Model):
         Borrowing.validate_date_fields(
             self.borrow_date, self.expected_return_date, self.actual_return_date
         )
+
+    def total_borrowing_fee(self):
+        borrowing_period = datetime.datetime.today().date() - self.borrow_date
+        total_fee = self.book_id.daily_fee * borrowing_period.days
+        return total_fee

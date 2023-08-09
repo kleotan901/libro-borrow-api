@@ -44,6 +44,7 @@ class BorrowingListSerializer(BorrowingSerializer):
 class BorrowingDetailSerializer(BorrowingSerializer):
     user_id = UserSerializer(read_only=True)
     book_id = BookSerializer(read_only=True)
+    total_fee = serializers.CharField(source="total_borrowing_fee", read_only=True)
 
     class Meta:
         model = Borrowing
@@ -54,4 +55,5 @@ class BorrowingDetailSerializer(BorrowingSerializer):
             "actual_return_date",
             "user_id",
             "book_id",
+            "total_fee",
         ]

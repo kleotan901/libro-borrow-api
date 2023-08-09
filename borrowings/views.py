@@ -75,6 +75,7 @@ class BorrowingViewSet(
 
     @action(methods=["post"], detail=True, url_path="return")
     def return_book(self, request, pk):
+        """Endpoint for return book"""
         borrowing = Borrowing.objects.get(id=pk)
         if borrowing.actual_return_date:
             return Response(
