@@ -176,5 +176,4 @@ HOME_PAGE = "http://127.0.0.1:8000/api/books/"
 TELEGRAM_URL = "https://www.telegram.me/"
 TELEGRAM_API_URL = "https://api.telegram.org/"
 BOT_NAME = "LibraryServiceNotifications_bot"
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-WEBHOOK_URL = os.getenv("WEBHOOK_URL")
+BOT_TOKEN = "6526619100:AAGhorFvWWcqU3-SPc_6xhnC-vqNPSuxm3A"

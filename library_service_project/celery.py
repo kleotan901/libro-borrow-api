@@ -20,6 +20,8 @@ app.autodiscover_tasks(
     ]
 )
 
+broker_connection_retry_on_startup = True
+
 
 @app.task(bind=True, ignore_result=True)
 def debug_task(self):
