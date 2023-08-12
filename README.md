@@ -15,6 +15,20 @@ API allows users to borrow books in the online library
 * Daily notifications of overdue borrowings
 * Notifications of creating new borrowing
 
+## Run project
++ git clone https://github.com/kleotan901/library-service-project.git
++ cd library-service-project
++ python -m venv venv
++ venv\Scripts\activate (on Windows)
++ source venv/bin/activate (on macOS)
++ pip install -r requirements.txt
++ python manage.py migrate
++ python manage.py runserver
++ python manage.py loaddata library_service_project_fixture.json
++ celery -A library-service-project beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
++ celery -A library-service-project worker -l INFO #run celery worker for task handling
++ python telegram_notifications/notifications.py #run telegram for telegram notifications
+
 ## Run with docker
 Docker should be installed
 + git clone https://github.com/kleotan901/library-service-project.git
