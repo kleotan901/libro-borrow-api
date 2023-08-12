@@ -6,11 +6,12 @@ API allows users to borrow books in the online library
 * JWT Authenticated
 * Admin panel /admin/
 * Documentation is located at /api/doc/swagger/
-* Managing borrowings
+* Create borrowings
+* Return books (example /api/borrowings/1/return/)
 * Display the number of books and their daily fee
-* Filter borrows if they are active or not
+* Filter borrowings by user & if they are active or not
 * Create books with administrator rights
-* Using Telegram bot to get information about overdue borrowing
+* Using Telegram bot to get information about borrowing
 * Daily notifications of overdue borrowings
 * Notifications of creating new borrowing
 
@@ -24,6 +25,7 @@ Docker should be installed
 
 + create new user via /api/user/register/
 + get access token via /api/user/token/
++ get link to start telegram bot /api/telegram_notifications/start/
 
 ### You can use the following test credentials:
 
@@ -31,10 +33,6 @@ Docker should be installed
 - Email: admin@admin.com
 - Password: qay12345
 
-
-##### Test user:
-- Email: user@email.com
-- Password: qay12345
 
 ## Configuration
 The project uses environment variables for configuration. Please follow these steps to set up the required configuration files.
