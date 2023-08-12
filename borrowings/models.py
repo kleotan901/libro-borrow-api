@@ -49,6 +49,9 @@ class Borrowing(models.Model):
         )
 
     def total_borrowing_fee(self):
-        borrowing_period = datetime.datetime.today().date() - self.borrow_date
+        if self.actual_return_date:
+            borrowing_period = self.actual_return_date - self.borrow_date
+        else:
+            borrowing_period = datetime.datetime.today().date() - self.borrow_date
         total_fee = self.book_id.daily_fee * borrowing_period.days
         return total_fee
