@@ -15,7 +15,7 @@ class Book(models.Model):
             )
         ]
     )
-    daily_fee = models.DecimalField(decimal_places=2, max_digits=1200)
+    daily_fee = models.DecimalField(decimal_places=2, max_digits=12)
 
     class Meta:
         ordering = ["title"]
