@@ -15,7 +15,7 @@ API allows users to borrow books in the online library
 * Daily notifications of overdue borrowings
 * Notifications of creating new borrowing
 
-## Run project
+## Run project without docker
 + git clone https://github.com/kleotan901/library-service-project.git
 + cd library-service-project
 + python -m venv venv
