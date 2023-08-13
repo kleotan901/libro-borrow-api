@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from telegram_notifications.models import Notification
 from users.serializers import UserSerializer, UserListSerializer
@@ -27,3 +28,9 @@ class ManageUserView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class CustomTokenObtain(TokenObtainPairView):
+    """The default `Authorization` header for JWT authentication was changed to `Authorize` header"""
+
+    pass
