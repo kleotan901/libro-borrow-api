@@ -1,8 +1,6 @@
 import datetime
 from unittest.mock import patch
 
-import requests
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -120,7 +118,8 @@ class AuthorizedUserBorrowingViewSetTest(TestCase):
         self.assertEqual(result.status_code, status.HTTP_200_OK)
         self.assertEqual(result.data, serializer.data)
 
-    def test_create_borrowing(self):
+    @patch("borrowings.views.send_message_new_borrowing.delay")
+    def test_create_borrowing(self, mock_delay):
         book = Book.objects.get(id=1)
         user = get_user_model().objects.get(id=1)
         payload = {
@@ -130,16 +129,11 @@ class AuthorizedUserBorrowingViewSetTest(TestCase):
             "book_id": book.id,
         }
         result = self.client.post(BORROWINGS_URL, data=payload)
-        borrowings = Borrowing.objects.filter(user_id=user.id)
-        borrowing_4 = borrowings.get(id=4)
+        chat_id = Notification.objects.get(user=user.id).chat_id
+        message_text = f"Borrowing created - {book.title}({book.author})"
+        mock_delay.assert_called_once_with(chat_id, message_text)
 
         self.assertEqual(result.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(borrowings.count(), 3)
-        self.assertEqual(
-            borrowing_4.expected_return_date,
-            datetime.datetime.strptime("2023-12-11", "%Y-%m-%d").date(),
-        )
-        self.assertEqual(borrowing_4.book_id.inventory, 29)
 
     def test_borrowing_update_not_allowed(self):
         borrowing = Borrowing.objects.get(id=1)

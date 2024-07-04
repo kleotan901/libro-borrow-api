@@ -6,7 +6,7 @@ from django.conf import settings
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(PROJECT_ROOT)
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "library_service_project.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "libro-borrow-api.settings")
 
 from telegram import (
     InlineKeyboardMarkup,

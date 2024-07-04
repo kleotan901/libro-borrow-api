@@ -32,7 +32,7 @@ services:
       dockerfile: Dockerfile
     command: >
       sh -c "python manage.py wait_for_db &&
-             celery -A library_service_project worker --loglevel=info"
+             celery -A libro-borrow-api worker --loglevel=info"
     depends_on:
       - web
       - redis
@@ -47,7 +47,7 @@ services:
       dockerfile: Dockerfile
     command: >
       sh -c "python manage.py wait_for_db &&
-             celery -A library_service_project beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+             celery -A libro-borrow-api beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
     depends_on:
       - web
       - redis
@@ -62,7 +62,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5555:5555"
-    command: "celery -A library_service_project flower --address=0.0.0.0"
+    command: "celery -A libro-borrow-api flower --address=0.0.0.0"
     depends_on:
       - celery
     env_file:
