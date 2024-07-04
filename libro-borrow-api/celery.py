@@ -3,9 +3,9 @@ import os
 from celery import Celery
 
 # Set the default Django settings module for the 'celery' program.
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "library_service_project.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "libro-borrow-api.settings")
 
-app = Celery("library_service_project")
+app = Celery("libro-borrow-api")
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
@@ -16,7 +16,7 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 # Load task modules from all registered Django apps.
 app.autodiscover_tasks(
     [
-        "library_service_project.tasks",  # Include tasks from the "library_service_project" module
+        "libro-borrow-api.tasks",  # Include tasks from the "libro-borrow-api" module
     ]
 )
 

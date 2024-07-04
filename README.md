@@ -1,23 +1,22 @@
-# library-service-project
+# LibroBorrow API
 
-API allows users to borrow books in the online library
-### Features
 
-* JWT Authenticated
-* Admin panel /admin/
-* Documentation is located at /api/doc/swagger/
-* Create borrowings
-* Return books (example /api/borrowings/1/return/)
-* Display the number of books and their daily fee
-* Filter borrowings by user & if they are active or not
-* Create books with administrator rights
-* Using Telegram bot to get information about borrowing
-* Daily notifications of overdue borrowings
-* Notifications of creating new borrowing
+Developed the LibroBorrow API, a comprehensive online library service that streamlines the borrowing and returning of books for users.
+### Key Features:
+
+* JWT Authentication: Secure user authentication and authorization.
+* Admin Panel: Accessible at /admin/ for managing library resources and user activities.
+* API Documentation: Detailed documentation available at /api/doc/swagger/.
+* Borrowing Management: Enabled users to create and manage borrowings, including returning books via endpoints (e.g., /api/borrowings/1/return/).
+* Book Inventory: Displayed the number of available books and their daily fee.
+* Filtering Capabilities: Allowed filtering of borrowings by user and active status.
+* Administrator Features: Enabled book creation with administrator rights.
+* Telegram Bot Integration: Provided real-time updates and information on borrowings via a Telegram bot.
+* Notifications: Implemented daily notifications for overdue borrowings and alerts for new borrowings.
 
 ## Run project without docker
-+ git clone https://github.com/kleotan901/library-service-project.git
-+ cd library-service-project
++ git clone https://github.com/kleotan901/libro-borrow-api.git
++ cd libro-borrow-api
 + python -m venv venv
 + venv\Scripts\activate (on Windows)
 + source venv/bin/activate (on macOS)
@@ -31,7 +30,7 @@ API allows users to borrow books in the online library
 
 ## Run with docker
 Docker should be installed
-+ git clone https://github.com/kleotan901/library-service-project.git
++ git clone https://github.com/kleotan901/libro-borrow-api.git
 + cd library-service-project
 + docker-compose up --build
 
