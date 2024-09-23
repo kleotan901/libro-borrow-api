@@ -352,4 +352,5 @@ poetry.toml
 # LSP config files
 pyrightconfig.json
 
-# End of https://www.toptal.com/developers/gitignore/api/django,python,pycharm+all
+# End of https://www.toptal.com/developers/gitignore/api/django,python,pycharm+alldump.rdb
+dump.rdb

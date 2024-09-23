@@ -17,6 +17,7 @@ class Borrowing(models.Model):
     book_id = models.ForeignKey(
         Book, related_name="borrowings", on_delete=models.CASCADE
     )
+    fine_is_paid = models.BooleanField(default=False, null=True, blank=True)
 
     def __str__(self) -> str:
         return f"{self.book_id} - {self.borrow_date}"
@@ -53,5 +54,6 @@ class Borrowing(models.Model):
             borrowing_period = self.actual_return_date - self.borrow_date
         else:
             borrowing_period = datetime.datetime.today().date() - self.borrow_date
+
         total_fee = self.book_id.daily_fee * borrowing_period.days
         return total_fee
