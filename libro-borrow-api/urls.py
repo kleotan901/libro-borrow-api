@@ -18,11 +18,15 @@ from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
+from payments.views import my_webhook_view
+
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('webhook/', my_webhook_view, name='webhook'),
     path("api/books/", include("books.urls", namespace="books")),
     path("api/users/", include("users.urls", namespace="users")),
     path("api/borrowings/", include("borrowings.urls", namespace="borrowings")),
+    path("api/payments/", include("payments.urls", namespace="payments")),
     path(
         "api/telegram_notifications/",
         include("telegram_notifications.urls", namespace="telegram-notifications"),
