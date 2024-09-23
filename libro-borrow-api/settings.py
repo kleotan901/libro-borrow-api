@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "127.0.0.1",
+    "127.0.0.1", "localhost"
 ]
 
 # Application definition
@@ -50,7 +50,26 @@ INSTALLED_APPS = [
     "users",
     "borrowings",
     "telegram_notifications",
+    "payments",
+
+    'rest_framework.authtoken',
+    'django.contrib.sites',
 ]
+
+SITE_ID = 1
+
+REST_AUTH = {
+    'USE_JWT': True,
+    'JWT_AUTH_COOKIE': 'jwt-auth',
+}
+
+REST_USE_JWT = True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -154,9 +173,8 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
-
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=50),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1550),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": False,
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZE",
@@ -174,12 +192,14 @@ CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
-
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 HOME_PAGE = "http://127.0.0.1:8000/api/books/"
+HOME_DOMAIN = "http://127.0.0.1:8000/"
 
 TELEGRAM_URL = "https://www.telegram.me/"
 TELEGRAM_API_URL = "https://api.telegram.org/"
-BOT_NAME = "LibraryServiceNotifications_bot"
-BOT_TOKEN = "6526619100:AAGhorFvWWcqU3-SPc_6xhnC-vqNPSuxm3A"
+BOT_NAME = os.getenv("BOT_NAME")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+STRIPE_TEST_SECRET_KEY = os.getenv("STRIPE_TEST_SECRET_KEY")
+WEBHOOK_URL = "https://686d-46-211-73-45.ngrok-free.app/webhook/"
