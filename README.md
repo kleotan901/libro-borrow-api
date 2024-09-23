@@ -24,9 +24,14 @@ Developed the LibroBorrow API, a comprehensive online library service that strea
 + python manage.py migrate
 + python manage.py runserver
 + python manage.py loaddata library_service_project_fixture.json
-+ celery -A library-service-project beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
-+ celery -A library-service-project worker -l INFO #run celery worker for task handling
++ celery -A libro-borrow-api beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
++ celery -A libro-borrow-api worker -l INFO #run celery worker for task handling
 + python telegram_notifications/notifications.py #run telegram for telegram notifications
+### Set up Stripe Webhook:
++ using ngrok service (if project is locally)
++ Create webhook endpoint in Stripe account
++ stripe listen --load-from-webhooks-api --forward-to http://localhost:8000
+
 
 ## Run with docker
 Docker should be installed
@@ -36,8 +41,8 @@ Docker should be installed
 
 ## Getting access
 
-+ create new user via /api/user/register/
-+ get access token via /api/user/token/
++ create new user via /api/users/
++ get access token via /api/users/token/
 + get link to start telegram bot /api/telegram_notifications/start/
 
 ### You can use the following test credentials:
